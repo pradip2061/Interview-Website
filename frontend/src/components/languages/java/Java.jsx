@@ -10,11 +10,12 @@ const Java = () => {
    const[questions,setQuestions]=useState([])
    const[pages,setPages]=useState('')
    const[page,setPage]=useState(1)
+   const BASE_URL = import.meta.env.VITE_BASE_URL
    const question=async()=>{
     try {
       setLoading(true)
       setPages(0)
-      const response = await axios.get(`http://localhost:3000/interview/javaqueryget/${subtopic}?page=${page}`)
+      const response = await axios.get(`${BASE_URL}/javaqueryget/${subtopic}?page=${page}`)
     
       if(response.status === 200){
        setQuestions(response.data.questions)

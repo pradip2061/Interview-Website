@@ -19,13 +19,14 @@ const Html = () => {
   const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic}=useContext(SearchContext)
   const[loading,setLoading]=useState(false)
   const[questions,setQuestions]=useState([])
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const[pages,setPages]=useState('')
   const[page,setPage]=useState(1)
   const question=async()=>{
     try {
       setLoading(true)
       setPages(0)
-      const response = await axios.get(`http://localhost:3000/interview/htmlqueryget/${subtopic}?page=${page}`)
+      const response = await axios.get(`${BASE_URL}/htmlqueryget/${subtopic}?page=${page}`)
     
       if(response.status === 200){
        setQuestions(response.data.questions)
