@@ -9,8 +9,7 @@ connectToDatabase()
 require('dotenv').config();
 app.use(express.json());
 app.use(cors({
-    origin:'https://interview-website-vx81.vercel.app',
-    methods: ['GET', 'POST']
+    origin:'https://interview-website-vert.vercel.app',
 }))
 app.use('/interview',HtmlRouter,JavaRouter,logicRouter)
 const PORT =process.env.PORT ||3000
