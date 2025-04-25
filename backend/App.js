@@ -9,7 +9,7 @@ connectToDatabase()
 require('dotenv').config();
 app.use(express.json());
 app.use(cors({
-    origin: ['https://interview-website-vert.vercel.app','http://localhost:5173'],
+    origin:['https://interview-website-nine.vercel.app','http://localhost:5173'],
     credentials: true
 }));
 app.use('/interview',HtmlRouter,JavaRouter,logicRouter)
