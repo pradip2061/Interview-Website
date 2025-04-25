@@ -1,19 +1,43 @@
-const express = require('express')
-const cors = require('cors')
-const app = express()
-const connectToDatabase = require('./database/index')
-const HtmlRouter = require('./router/HtmlRouter')
-const JavaRouter = require('./router/JavaRouter')
-const logicRouter = require('./router/logicRouter')
-connectToDatabase()
-require('dotenv').config();
-app.use(express.json());
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectToDatabase = require('./database/index');
+const HtmlRouter = require('./router/HtmlRouter');
+const JavaRouter = require('./router/JavaRouter');
+const LogicRouter = require('./router/logicRouter');
+
+// Load environment variables
+dotenv.config();
+
+// Connect to MongoDB
+connectToDatabase();
+
+const app = express();
+
+// Allowed frontend origins
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://interview-website-nine.vercel.app'
+];
+
+// CORS setup
 app.use(cors({
-    origin:['https://interview-website-nine.vercel.app','http://localhost:5173'],
-    credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 }));
-app.use('/interview',HtmlRouter,JavaRouter,logicRouter)
-const PORT =process.env.PORT ||3001
-app.listen(PORT,()=>{
-    console.log(`the project running at ${PORT}`)
-})
+
+app.use(express.json());
+
+// Routes
+app.use('/interview', HtmlRouter, JavaRouter, LogicRouter);
+
+// Server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
