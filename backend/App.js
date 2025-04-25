@@ -9,10 +9,11 @@ connectToDatabase()
 require('dotenv').config();
 app.use(express.json());
 app.use(cors({
-    origin:'https://interview-website-vert.vercel.app',
-}))
+    origin: ['https://interview-website-vert.vercel.app','http://localhost:5173'],
+    credentials: true
+}));
 app.use('/interview',HtmlRouter,JavaRouter,logicRouter)
-const PORT =process.env.PORT ||3000
+const PORT =process.env.PORT ||3001
 app.listen(PORT,()=>{
     console.log(`the project running at ${PORT}`)
 })
