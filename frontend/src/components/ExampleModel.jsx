@@ -20,7 +20,9 @@ const ExampleModel = ({example}) => {
         title="Copy to clipboard"
         className='ml-220 pb-3 text-black'
       />
-        <h1>{example.theory || "no data found!"}</h1>
+       {
+        example.theory &&  <h1>{example.theory || "no data found!"}</h1>
+       }
         {
             example.code && <div className='border-l-5 border-indigo-500 whitespace-pre-wrap bg-white overflow-x-auto flex pl-5 w-[100%] py-5 mt-3'>
         {

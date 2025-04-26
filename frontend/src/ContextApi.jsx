@@ -22,7 +22,7 @@ export const SearchProvider = ({ children }) => {
           {
             id: 3,
             name: "PYTHON",
-            subItems:[""]
+            subItems:['PYTHON Variables','PYTHON DataTypes','PYTHON TypeCasting','PYTHON String and String Methods','PYTHON Operators','PYTHON Input User','PYTHON Operator Precedence','PYTHON If and Else','PYTHON Match Case','PYTHON Fstrings','PYTHON Loops','PYTHON List and List Methods','PYTHON Tuples and Tuple Methods','PYTHON Set and set Methods']
           },
           {
             id: 4,

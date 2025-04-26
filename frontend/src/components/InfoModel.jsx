@@ -5,8 +5,8 @@ export default function InfoModal() {
 
   useEffect(()=>{
     setTimeout(()=>{
-      setBoolean(false)
-    },3000)
+      setShow(false)
+    },10000)
   },[])
 
   if (!show) return null;
@@ -24,6 +24,8 @@ export default function InfoModal() {
           <li className='ml-2'> 2.JavaScript</li>
           <li className='ml-2'> 3.React</li>
           <li className='ml-2'> 4.Nodejs</li>
+          <li>🔍 update more searching functionality</li>
+          <li>📱 updating the css for mobile View</li>
          
          
          

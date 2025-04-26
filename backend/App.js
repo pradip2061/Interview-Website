@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const connectToDatabase = require('./database/index');
 const HtmlRouter = require('./router/HtmlRouter');
 const JavaRouter = require('./router/JavaRouter');
+const PythonRouter=require('./router/PythonRouter')
 const LogicRouter = require('./router/logicRouter');
 
 // Load environment variables
@@ -34,7 +35,7 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use('/interview', HtmlRouter, JavaRouter, LogicRouter);
+app.use('/interview', HtmlRouter, JavaRouter, LogicRouter,PythonRouter);
 
 // Server
 const PORT = process.env.PORT || 3001;
