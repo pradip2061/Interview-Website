@@ -26,10 +26,6 @@ export default function InfoModal() {
           <li className='ml-2'> 4.Nodejs</li>
           <li>🔍 update more searching functionality</li>
           <li>📱 updating the css for mobile View</li>
-         
-         
-         
-      
         </ul>
         <button
           onClick={() => setShow(false)}

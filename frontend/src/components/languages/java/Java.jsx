@@ -4,8 +4,9 @@ import axios from 'axios';
 import { SearchContext } from '../../../ContextApi';
 import Inheritance from './Inheritance';
 import img from '../../../assets/commingsoon.jpg'
+import SuggestModel from '../../SuggestModel';
 const Java = () => {
-   const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic}=useContext(SearchContext)
+   const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic,setSuggestions,suggestions}=useContext(SearchContext)
    const[loading,setLoading]=useState(false)
    const[questions,setQuestions]=useState([])
    const[pages,setPages]=useState('')
@@ -26,9 +27,10 @@ const Java = () => {
     }finally{
     setLoading(false)
     }}
-    useEffect(()=>{
-question()
-    },[subtopic,page])
+   
+    useEffect(() => {
+ question()
+    }, [subtopic, page]);
   useEffect(() => {
     setSubTopic("javainheritance");
     setCloseSideBar(true);
@@ -79,17 +81,15 @@ question()
 
   return (
     <div className="mt-7 lg:flex">
-      <div className="lg:w-[30%]" ref={sidebarRef}>
-        {closeSideBar && slideElem?.[1]?.subItems && (
-          <SideBar subitem={slideElem[1].subItems} />
-        )}
-      </div>
+       <div className='lg:w-[30%]' ref={sidebarRef} >
+         {
+          closeSideBar &&  <SideBar subitem={slideElem[1].subItems} />
+         }
+          </div>
       <div className="lg:w-[100%] lg:mr-35">
         {subtopic === 'javainheritance' ? (
           <Inheritance questions={questions} loading={loading} />
-        ) : (
-          <img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>
-        )}
+        ) : <img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>}
         <div className=' gap-x-1  flex justify-center mt-10 '>
         <button className={`${page == 1?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handlePrev} disabled={page === 1}>prev</button>
         {

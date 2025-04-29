@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import ExampleModel from '../../ExampleModel'
 import { ChevronRight, ChevronDown } from 'lucide-react';
+import Loading from '../../Loading';
 const Inheritance = ({questions}) => {
   const [openIndex, setOpenIndex] = useState(null);
   const showexample=(index)=>{
     setOpenIndex((prev) => (prev === index ? null : index));
   }
   console.log(questions)
+  if (!questions || questions.length === 0) {
+    return <Loading type="bars" color="blue" height={50} width={50} />;
+  }
   return (
     <div className=' h-[40rem] overflow-y-auto w-[100%]'>
     {

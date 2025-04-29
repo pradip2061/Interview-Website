@@ -15,36 +15,44 @@ import axios from 'axios'
 import { debounce } from 'lodash';
 import { SearchContext } from '../../../ContextApi';
 import img from '../../../assets/commingsoon.jpg'
+import Fuse from "fuse.js";
+import SuggestModel from '../../SuggestModel';
 const Html = () => {
-  const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic}=useContext(SearchContext)
+  const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic,setSuggestions,suggestions,setSuggestModel}=useContext(SearchContext)
   const[loading,setLoading]=useState(false)
   const[questions,setQuestions]=useState([])
   const BASE_URL = import.meta.env.VITE_BASE_URL
   const[pages,setPages]=useState('')
   const[page,setPage]=useState(1)
-  const question=async()=>{
+  const question = async () => {
     try {
-      setLoading(true)
-      setPages(0)
-      const response = await axios.get(`${BASE_URL}/htmlqueryget/${subtopic}?page=${page}`)
-    
-      if(response.status === 200){
-       setQuestions(response.data.questions)
-       setPages(response.data.totalpages)
+      setLoading(true);
+      setPages(0);
+  
+      const response = await axios.get(`${BASE_URL}/htmlqueryget/${subtopic}?page=${page}`);
+  
+      if (response.status === 200 && response.data.questions.length > 0) {
+        setQuestions(response.data.questions);
+        setPages(response.data.totalpages);
       }
     } catch (error) {
-      console.log(error)
-    }finally{
-    setLoading(false)
-    }}
-    useEffect(()=>{
-question()
-    },[subtopic,page])
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    useEffect(()=>{
-      setSubTopic("htmlstructure")
-      setCloseSideBar(true)
-    },[])
+  useEffect(()=>{
+    setSubTopic("htmlstructure")
+    setCloseSideBar(true)
+  },[])
+  
+  useEffect(() => {
+  question()
+  }, [subtopic, page]);
+  
+
+
 
     const sidebarRef = useRef(null);
     const handleClickOutside = (event) => {
@@ -75,6 +83,8 @@ question()
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closeSideBar]);
+
+
   return (
     <div className='mt-7 lg:flex '>
         <div className='lg:w-[30%]' ref={sidebarRef} >

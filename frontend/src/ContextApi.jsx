@@ -7,7 +7,10 @@ export const SearchProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const[subtopic,setSubTopic]=useState("")
   const[closeSideBar,setCloseSideBar]=useState(true)
+  const[SuggestModel,setSuggestModel]=useState(true)
+  const[suggestions,setSuggestions]=useState([])
   console.log(closeSideBar)
+  console.log(suggestions,"context")
   const slideElem = [
         {
           id:1,
@@ -48,7 +51,7 @@ export const SearchProvider = ({ children }) => {
         ];
 
   return (
-    <SearchContext.Provider value={{ setSearch,search,slideElem,setSubTopic,subtopic,setCloseSideBar,closeSideBar}}>
+    <SearchContext.Provider value={{ setSearch,search,slideElem,setSubTopic,subtopic,setCloseSideBar,closeSideBar,suggestions,setSuggestions,SuggestModel,setSuggestModel}}>
       {children}
     </SearchContext.Provider>
   );

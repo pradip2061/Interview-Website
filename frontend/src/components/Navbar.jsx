@@ -1,23 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { Search, Code2, LogIn, UserPlus, X } from 'lucide-react';
-import axios from 'axios';
-import { useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Search, Code2, LogIn, UserPlus, X, LogOut } from 'lucide-react';
 import { SearchContext } from '../ContextApi';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [searchBar, setSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const{setSearch}=useContext(SearchContext)
-  const onSubmit = async(e) => {
-    e.preventDefault(); // ✅ Prevent default form submission
-    setSearch(searchValue)
+  const { setSearch } = useContext(SearchContext);
+  const [token, setToken] = useState(null);
+  const navigate = useNavigate();
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSearch(searchValue);
+    console.log(searchValue)
+    setSearchValue('');
+    setSearchBar(false);
   };
-  
 
- 
- 
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    toast.success('Logged out successfully!');
+    navigate('/'); // ✅ After logout, redirect user to home page
+  };
 
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    setToken(savedToken);
+  }, []);
+
+  const sentQuery = async()=>{
+    const token = await localStorage.getItem("token")
+    if(token){
+      navigate('/sentQuery')
+    }else{
+      navigate("/authenticate")
+    }
+  }
   return (
     <>
       {searchBar ? (
@@ -42,18 +63,20 @@ const Navbar = () => {
       ) : (
         <nav className="bg-white fixed w-full top-0 z-50">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-0 lg:justify-between h-16">
+              {/* Logo */}
+              <div className="flex items-center space-x-2 lg:space-x-4">
                 <Code2 className="h-7 w-7 text-indigo-600" />
                 <span className="text-lg font-bold text-gray-800">
                   TechLearn
                 </span>
               </div>
+
+              {/* Search */}
               <div className="flex-1 max-w-lg mx-8">
-                {/* ✅ Fixed Form */}
                 <form onSubmit={onSubmit}>
                   <div className="relative">
-                    {/* For larger screens */}
+                    {/* Big screens */}
                     <input
                       type="text"
                       placeholder="Search tutorials..."
@@ -63,10 +86,9 @@ const Navbar = () => {
                     />
                     <Search
                       className="hidden lg:block absolute left-3 top-2.5 h-5 w-5 text-gray-400"
-                
                     />
 
-                    {/* For smaller screens */}
+                    {/* Small screens */}
                     <Search
                       className="block lg:hidden h-5 w-5 text-black cursor-pointer"
                       onClick={() => setSearchBar(true)}
@@ -75,14 +97,36 @@ const Navbar = () => {
                 </form>
               </div>
 
-              <div className="flex items-center space-x-4">
-                <button className="ml-5 flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors">
-                  <LogIn className="h-5 w-5 mr-2" />
-                  Login
-                </button>
-                <button className="hidden lg:flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                  <UserPlus className="h-5 w-5 mr-2" />
-                  Sign Up
+              {/* Buttons */}
+              <div className="flex items-center lg:space-x-4">
+                {token ? (<>
+                  <button
+                    className=" hidden ml-5 lg:flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
+                    onClick={logout}
+                  >
+                    <LogOut className="h-5 w-5 mr-2" />
+                    Logout
+                  </button>
+                  <button
+                    className=" flex ml-5 lg:hidden items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
+                    onClick={logout}
+                  >
+                    <LogOut className="h-5 w-5 lg:mr-2" />
+                  </button>
+                  </>
+                ) : (
+                  <button
+                    className="ml-5 flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
+                    onClick={() => navigate('/authenticate')}
+                  >
+                    <LogIn className="h-5 w-5 mr-2" />
+                    Login
+                  </button>
+                )}
+                
+                <button className="flex  lg:flex items-center text-sm  lg:px-4 lg:text-lg lg:py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" onClick={sentQuery}>
+                  <UserPlus className="hidden lg:flex h-5 w-5 mr-2" />
+                  Query Sent
                 </button>
               </div>
             </div>
