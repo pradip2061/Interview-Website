@@ -103,6 +103,7 @@ const AuthForm = () => {
         <button
           onClick={() => navigate("/")}
           className="absolute top-2 right-6 text-gray-400 hover:text-gray-600 text-3xl"
+           aria-label='X'
         >
           ×
         </button>
@@ -148,6 +149,7 @@ const AuthForm = () => {
             type="submit"
             disabled={loading} // 🔒
             className="w-full bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 disabled:opacity-60"
+           aria-label={ isLogin ? "Login" : "Sign Up"}
           >
             {loading ? (
               <div className="flex items-center justify-center">
@@ -206,6 +208,7 @@ const AuthForm = () => {
                 type="submit"
                 disabled={loading} // 🔒
                 className="w-full bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 disabled:opacity-60"
+              aria-label="Verify OTP"
               >
                 {loading ? (
                   <ReactLoading type="spin" color="white" height={20} width={20} />

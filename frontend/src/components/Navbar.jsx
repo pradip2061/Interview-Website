@@ -103,6 +103,7 @@ const Navbar = () => {
                   <button
                     className=" hidden ml-5 lg:flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
                     onClick={logout}
+                    aria-label='Logout'
                   >
                     <LogOut className="h-5 w-5 mr-2" />
                     Logout
@@ -110,6 +111,7 @@ const Navbar = () => {
                   <button
                     className=" flex ml-5 lg:hidden items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
                     onClick={logout}
+                    aria-label='logout'
                   >
                     <LogOut className="h-5 w-5 lg:mr-2" />
                   </button>
@@ -118,13 +120,14 @@ const Navbar = () => {
                   <button
                     className="ml-5 flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
                     onClick={() => navigate('/authenticate')}
+                    aria-label='Login'
                   >
                     <LogIn className="h-5 w-5 mr-2" />
                     Login
                   </button>
                 )}
                 
-                <button className="flex  lg:flex items-center text-sm  lg:px-4 lg:text-lg lg:py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" onClick={sentQuery}>
+                <button className="flex  lg:flex items-center text-sm px-1 py-1 lg:px-4 lg:text-lg lg:py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" onClick={sentQuery} aria-label='Query Sent'>
                   <UserPlus className="hidden lg:flex h-5 w-5 mr-2" />
                   Query Sent
                 </button>

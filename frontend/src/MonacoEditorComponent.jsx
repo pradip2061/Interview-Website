@@ -74,10 +74,10 @@ const MonacoEditorComponent = () => {
           minimap: { enabled: true },
         }}
       />
-      <button onClick={handleRunCode} style={{ marginTop: '20px' }}>
+      <button onClick={handleRunCode} style={{ marginTop: '20px' }} aria-label='Run code'>
         Run Code
       </button>
-      <button onClick={clearoutput} className='bg-red-400'>
+      <button onClick={clearoutput} className='bg-red-400' aria-label='clear'>
         clear
       </button>
       <div style={{ marginTop: '20px', whiteSpace: 'pre-wrap' }}>

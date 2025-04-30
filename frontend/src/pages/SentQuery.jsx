@@ -108,6 +108,7 @@ const SentQuery = () => {
             type="submit"
             disabled={loading} // 🔒
             className="w-full bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 disabled:opacity-60"
+          aria-label="Submit"
           >
             {loading ? (
               <div className="flex items-center justify-center">

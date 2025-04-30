@@ -17,8 +17,6 @@ export default function InfoModal() {
         <h2 className="text-xl font-bold mb-4 text-gray-800">ℹ️ Upcoming Features</h2>
         <ul className="text-gray-700 space-y-2 text-sm">
           <li>🏠 A Landing Page</li>
-          <li>📥 A First Recommendation section where users can submit questions</li>
-          <li>💬 A Feedback system under each question</li>
           <li>✅ upcoming languages:</li>
           <li className='ml-2'> 1.python</li>
           <li className='ml-2'> 2.JavaScript</li>
@@ -30,6 +28,7 @@ export default function InfoModal() {
         <button
           onClick={() => setShow(false)}
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-lg"
+          aria-label='X'
         >
           ×
         </button>

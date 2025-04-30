@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import ExampleModel from '../../ExampleModel'
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import Loading from '../../Loading';
-const Inheritance = ({questions}) => {
+const Inheritance = ({questions})=>{
   const [openIndex, setOpenIndex] = useState(null);
-  const showexample=(index)=>{
+  const showexample = useCallback((index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
-  }
+  },[])
   console.log(questions)
   if (!questions || questions.length === 0) {
     return <Loading type="bars" color="blue" height={50} width={50} />;
@@ -27,7 +27,7 @@ const Inheritance = ({questions}) => {
             items.outputQuestion|| "no data found!"
         }
         </div>
-     <button className='bg-green-600 text-white p-2 mt-3 hover:bg-green-900'>Try it Yourself!</button>
+     <button className='bg-green-600 text-white p-2 mt-3 hover:bg-green-900' aria-label='Try it Yourself!'>Try it Yourself!</button>
         </div>:null
 }
     <div className='flex gap-2 items-center w-[90%] h-10 bg-gray-200 pl-3 mt-3 ml-4' onClick={()=>showexample(index)}>
@@ -50,4 +50,4 @@ const Inheritance = ({questions}) => {
   )
 }
 
-export default Inheritance
+export default React.memo(Inheritance)

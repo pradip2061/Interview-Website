@@ -18,7 +18,7 @@ const ExampleModel = ({example}) => {
         style={{ cursor: 'pointer' }} 
         onClick={handleCopy} 
         title="Copy to clipboard"
-        className='ml-220 pb-3 text-black'
+        className=' ml-70 lg:ml-220 pb-3 text-black'
       />
        {
         example.theory &&  <h1>{example.theory || "no data found!"}</h1>
@@ -34,4 +34,4 @@ const ExampleModel = ({example}) => {
   )
 }
 
-export default ExampleModel
+export default React.memo(ExampleModel)

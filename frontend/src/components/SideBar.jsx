@@ -8,6 +8,13 @@ const SideBar=({subitem}) => {
     const[onclose,setOnClose]=useState(true)
    const{subtopic,setSubTopic,setCloseSideBar}=useContext(SearchContext)
    console.log(subitem)
+   const sendTopic=(topic)=>{
+    setSubTopic(topic.toLowerCase().replace(/\s+/g, ""))
+    // Check if the screen width is less than 768px (mobile view)
+  if (window.innerWidth <= 768) {
+    setCloseSideBar(false); 
+  }
+   }
   return (
     <>
       <div className="w-64 bg-white shadow-lg h-[40rem] overflow-y-auto fixed lg:relative ">
@@ -15,7 +22,7 @@ const SideBar=({subitem}) => {
         <h3 className="text-lg font-semibold text-gray-800"></h3>
         <button
           onClick={()=>setCloseSideBar(false)}
-          className="p-1 hover:bg-gray-200 rounded-full lg:hidden">
+          className="p-1 hover:bg-gray-200 rounded-full lg:hidden" aria-label='X'>
           <X className="h-5 w-5 text-black" />
         </button>
       </div>
@@ -25,7 +32,7 @@ const SideBar=({subitem}) => {
             <li
               key={topic}
               className={`p-2 ${subtopic === topic.toLowerCase().replace(/\s+/g,"")?'bg-indigo-500':'bg-white'} hover:bg-gray-100 rounded cursor-pointer transition-colors`}
-              onClick={() => setSubTopic(topic.toLowerCase().replace(/\s+/g, ""))}
+              onClick={()=>sendTopic(topic)}
             >
               {topic}
             </li>
@@ -37,4 +44,4 @@ const SideBar=({subitem}) => {
   );
 };
 
-export default SideBar;
+export default React.memo(SideBar);

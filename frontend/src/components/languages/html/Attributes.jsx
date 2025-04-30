@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ExampleModel from '../../ExampleModel';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +8,10 @@ const Attributes = ({ questions }) => {
   const [openIndex, setOpenIndex] = useState(null);
   const navigate = useNavigate();
 
-  const showexample = (index) => {
+  const showexample = useCallback((index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
-  };
+  }, []);
 
-  // Check if questions is null, undefined, or an empty array
   if (!questions || questions.length === 0) {
     return <Loading type="bars" color="blue" height={50} width={50} />;
   }
@@ -34,7 +33,10 @@ const Attributes = ({ questions }) => {
               </div>
               <button
                 className="bg-green-600 text-white p-2 mt-3 hover:bg-green-900"
-                onClick={() => navigate(`/htmleditor/${encodeURIComponent(items.outputQuestion)}`)}
+                onClick={() =>
+                  navigate(`/htmleditor/${encodeURIComponent(items.outputQuestion)}`)
+                }
+                aria-label="Try it Yourself!"
               >
                 Try it Yourself!
               </button>
@@ -58,4 +60,4 @@ const Attributes = ({ questions }) => {
   );
 };
 
-export default Attributes;
+export default React.memo(Attributes);

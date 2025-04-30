@@ -79,11 +79,14 @@ const Java = () => {
       };
     }, [closeSideBar]);
 
+  const memoizedSubitem = useMemo(() => {
+    return slideElem[1]?.subItems || [];
+  }, [slideElem]);
   return (
     <div className="mt-7 lg:flex">
        <div className='lg:w-[30%]' ref={sidebarRef} >
          {
-          closeSideBar &&  <SideBar subitem={slideElem[1].subItems} />
+          closeSideBar &&  <SideBar subitem={memoizedSubitem} />
          }
           </div>
       <div className="lg:w-[100%] lg:mr-35">
@@ -91,13 +94,13 @@ const Java = () => {
           <Inheritance questions={questions} loading={loading} />
         ) : <img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>}
         <div className=' gap-x-1  flex justify-center mt-10 '>
-        <button className={`${page == 1?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handlePrev} disabled={page === 1}>prev</button>
+        <button className={`${page == 1?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handlePrev} disabled={page === 1} aria-label='prev'>prev</button>
         {
             Array.from({length:pages},(_,index)=>(
-                <button key={index+1} className={`${page==index+1? ' bg-blue-900':'bg-blue-500'} text-white w-10 h-10`} onClick={()=>currentpage(index+1)}>{index+1}</button>
+                <button key={index+1} className={`${page==index+1? ' bg-blue-900':'bg-blue-500'} text-white w-10 h-10`} onClick={()=>currentpage(index+1)} aria-label={index+1}>{index+1}</button>
             ))
         }
-        <button className={`${page == pages?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handleNext}>next</button>
+        <button className={`${page == pages?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handleNext} aria-label='next'>next</button>
     </div>
       </div>
     </div>

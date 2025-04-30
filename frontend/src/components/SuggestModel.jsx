@@ -27,6 +27,7 @@ export default function SuggestModel({item}) {
         <button
           onClick={()=>setSuggestions("")}
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-lg"
+           aria-label='X'
         >
           ×
         </button>
