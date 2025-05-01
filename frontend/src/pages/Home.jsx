@@ -33,6 +33,9 @@ function Home() {
         draggable
         pauseOnHover
         theme="light"
+        toastClassName={() =>
+    "bg-white text-black text-sm md:text-base px-4 py-3 rounded-md shadow-lg max-w-[90vw] md:max-w-md"
+  }
       />
       <InfoModal />
       <MainContent />

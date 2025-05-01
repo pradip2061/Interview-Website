@@ -1,87 +1,91 @@
 const HtmlTheory = require("../../model/HtmlModel")
+const javaTheory = require("../../model/JavaModel")
+const PythonTheory = require("../../model/PythonModel")
 
-const createHtmlQuestionOutput = async (req, res) => {
-  const{Topic,question,theory,category,outputQuestion}=req.body
-  if(!Topic|| !question|| !theory || !category){
-    return res.status(400).json({
-        message:'All field are required!'
-    })
-  }
-  const data = await HtmlTheory.findOne({Topic:Topic})
-  console.log(data)
-  if(!data){
-    const queries = new HtmlTheory({
-        Topic:Topic,
-        data:[
-            {
-                question:question,
-                outputQuestion,
-                Answer:{
-                    theory:theory,
-                },
-                category:category
-            }
-        ]
-    })
-    await queries.save()
-  }else{
-    data.data.push({
-        outputQuestion,
-        Answer:{
-            theory,
-        },
-        question,
-        category
-    })
-    await data.save()
-  }
-
-res.status(200).json({
-    message:'create successful'
-})
-}
-
-
-const createHtmlQuestionTheory = async (req, res) => {
-    const{Topic,question,theory,category,code}=req.body
-    if(!Topic|| !question|| !theory || !category){
-      return res.status(400).json({
-          message:'All field are required!'
-      })
+const getModelByLanguage = (language) => {
+    switch (language) {
+      case 'html':
+        return HtmlTheory;
+      case 'java':
+        return javaTheory;
+      case 'python':
+        return PythonTheory;
+      default:
+        return null;
     }
-    const data = await HtmlTheory.findOne({Topic:Topic})
-    console.log(data)
-    if(!data){
-      const queries = new HtmlTheory({
-          Topic:Topic,
-          data:[
-              {
-                  question:question,
-                  Answer:{
-                      theory:theory,
-                      code:code
-                  },
-                  category:category
-              }
-          ]
-      })
-      await queries.save()
-    }else{
-      data.data.push({
-          Answer:{
-              theory,
-              code
-          },
-          question,
-          category
-      })
-      await data.save()
+  };
+  
+  const createHtmlQuestionOutput = async (req, res) => {
+    const { formData } = req.body;
+    const { Topic, question, theory, category, outputQuestion = "", language } = formData;
+  
+    if (!Topic || !question || !theory || !category || !language) {
+      return res.status(400).json({ message: 'All fields are required except outputQuestion!' });
     }
   
-  res.status(200).json({
-      message:'create successful'
-  })
-  }
+    const Model = getModelByLanguage(language);
+    if (!Model) return res.status(400).json({ message: 'Invalid language provided!' });
+  
+    try {
+      let data = await Model.findOne({ Topic });
+  
+      const newEntry = {
+        question,
+        outputQuestion, // optional
+        Answer: { theory },
+        category,
+      };
+  
+      if (!data) {
+        const newDoc = new Model({ Topic, data: [newEntry] });
+        await newDoc.save();
+      } else {
+        data.data.push(newEntry);
+        await data.save();
+      }
+  
+      res.status(200).json({ message: 'Create successful' });
+    } catch (error) {
+      console.error("Error saving output question:", error);
+      res.status(500).json({ message: 'Server error!' });
+    }
+  };
+  
+  const createHtmlQuestionTheory = async (req, res) => {
+    const { formData } = req.body;
+    const { Topic, question, theory, category, code = "", language } = formData;
+  
+    if (!Topic || !question || !theory || !category || !language) {
+      return res.status(400).json({ message: 'All fields are required except code!' });
+    }
+  
+    const Model = getModelByLanguage(language);
+    if (!Model) return res.status(400).json({ message: 'Invalid language provided!' });
+  
+    try {
+      let data = await Model.findOne({ Topic });
+  
+      const newEntry = {
+        question,
+        Answer: { theory, code }, // code is optional
+        category,
+      };
+  
+      if (!data) {
+        const newDoc = new Model({ Topic, data: [newEntry] });
+        await newDoc.save();
+      } else {
+        data.data.push(newEntry);
+        await data.save();
+      }
+  
+      res.status(200).json({ message: 'Create successful' });
+    } catch (error) {
+      console.error("Error saving theory question:", error);
+      res.status(500).json({ message: 'Server error!' });
+    }
+  };
+  
 
 
 

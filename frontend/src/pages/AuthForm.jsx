@@ -47,7 +47,7 @@ const AuthForm = () => {
         });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.data);
-          navigate('/', { state: { loginSuccess: true } });
+            navigate('/', { state: { loginSuccess: true } });
         }
       } else {
         response = await axios.post("http://localhost:3000/interview/otpsent", { formData });
@@ -81,6 +81,9 @@ const AuthForm = () => {
         setIsLogin(true);
         setOtpModel(false);
         setError("")
+        setFormData({
+          password:""
+        })
       }
     } catch (error) {
       console.error("OTP Verify Error:", error);

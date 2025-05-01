@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext,useMemo} from 'react';
 import SideBar from '../../SideBar';
 import axios from 'axios';
 import { SearchContext } from '../../../ContextApi';

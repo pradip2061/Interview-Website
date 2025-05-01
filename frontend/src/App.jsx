@@ -8,6 +8,7 @@ import AuthForm from './pages/AuthForm';
 import MonacoEditorComponent from './MonacoEditorComponent'; // (if you use it somewhere else)
 import { SearchProvider } from './ContextApi';
 import SentQuery from './pages/SentQuery';
+import QueryRender from './pages/QueryRender';
 function App() {
   return (
     <SearchProvider>
@@ -23,12 +24,16 @@ function App() {
               draggable
               pauseOnHover
               theme="light"
+              toastClassName={() =>
+    "bg-white text-black text-sm md:text-base px-4 py-3 rounded-md shadow-lg max-w-[90vw] md:max-w-md"
+  }
             />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/htmleditor/:questions' element={<HtmlEditor />} />
           <Route path='/authenticate' element={<AuthForm />} />
           <Route path='/sentQuery' element={<SentQuery />} />
+          <Route path='/queryrender' element={<QueryRender />} />
         </Routes>
       </BrowserRouter>
     </SearchProvider>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { X, UserCircle } from "lucide-react";
+import { X, UserCircle,User2Icon} from "lucide-react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactLoading from 'react-loading';
@@ -30,8 +30,8 @@ const SentQuery = () => {
     setLoading(true);
     try {
         const token = await localStorage.getItem("token")
-      
-       const response = await axios.post("http://localhost:3000/interview/userquery", {formData},{
+        const BASE_URL = import.meta.env.VITE_BASE_URL
+       const response = await axios.post(`${BASE_URL}/userquery`, {formData},{
             headers:{
                 Authorization:`${token}`
             }

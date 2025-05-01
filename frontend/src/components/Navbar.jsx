@@ -1,16 +1,50 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { Search, Code2, LogIn, UserPlus, X, LogOut } from 'lucide-react';
 import { SearchContext } from '../ContextApi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import Fuse from 'fuse.js'
 const Navbar = () => {
   const [searchBar, setSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { setSearch } = useContext(SearchContext);
+  const { setSearch,slideElem } = useContext(SearchContext);
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
 
+  const [suggestions, setSuggestions] = useState([]);
+console.log(suggestions)
+  // Flatten all language subItems into a single array
+  const searchData = useMemo(() => {
+    return slideElem.flatMap((langSection) =>
+      langSection.subItems.map((topic) => ({
+        name: topic,
+        keyword: topic.toLowerCase().replace(/\s+/g, ''),
+        parent: langSection.name.toLowerCase().replace(/\s+/g, '')
+      }))
+    );
+  }, [slideElem]);
+
+  const fuse = useMemo(() => {
+    return new Fuse(searchData, {
+      keys: ['name', 'keyword'],
+      threshold: 0.3,
+      
+    });
+  }, [searchData]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (searchValue.trim() === '') {
+        setSuggestions([]);
+      } else {
+        const results = fuse.search(searchValue).slice(0,10)
+        setSuggestions(results.map((res) => res.item));
+      }
+    }, 200); // Debounce delay
+  
+    return () => clearTimeout(timeout);
+  }, [searchValue, fuse]);
+  
   const onSubmit = (e) => {
     e.preventDefault();
     setSearch(searchValue);
@@ -34,10 +68,15 @@ const Navbar = () => {
   const sentQuery = async()=>{
     const token = await localStorage.getItem("token")
     if(token){
-      navigate('/sentQuery')
+      navigate('/queryrender')
     }else{
       navigate("/authenticate")
     }
+  }
+  const suggestionsmodel=(item)=>{
+    setSearch(item.name)
+    setSearchValue("")
+    setSuggestions("")
   }
   return (
     <>
@@ -59,6 +98,23 @@ const Navbar = () => {
               className="absolute left-10 top-6 h-5 w-5 text-gray-400"
             />
           </div>
+          <div>
+  {suggestions.length > 0 && (
+    <div className="absolute left-1/2 transform -translate-x-1/2 top-[6rem] z-50 
+                    w-[90%] sm:w-[80%] md:w-[70%] max-w-xl 
+                    px-4 py-3 bg-[#F9F9F9] rounded-lg shadow-lg">
+      {suggestions.map((item, index) => (
+        <div
+          key={index}
+          className="py-2 px-2 hover:underline cursor-pointer text-sm sm:text-base"
+          onClick={() => suggestionsmodel(item)}
+        >
+          {item.name}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
         </form>
       ) : (
         <nav className="bg-white fixed w-full top-0 z-50">
@@ -73,7 +129,7 @@ const Navbar = () => {
               </div>
 
               {/* Search */}
-              <div className="flex-1 max-w-lg mx-8">
+              <div className="flex-1 max-w-lg mx-8 lg:ml-50 ">
                 <form onSubmit={onSubmit}>
                   <div className="relative">
                     {/* Big screens */}
@@ -96,9 +152,26 @@ const Navbar = () => {
                   </div>
                 </form>
               </div>
+              <div>
+  {suggestions.length > 0 && (
+    <div className="absolute left-1/2 transform -translate-x-1/2 top-[6rem] z-50 
+                    w-[90%] sm:w-[80%] md:w-[70%] max-w-xl 
+                    px-4 py-3 bg-[#F9F9F9] rounded-lg shadow-lg">
+      {suggestions.map((item, index) => (
+        <div
+          key={index}
+          className="py-2 px-2 hover:underline cursor-pointer text-sm sm:text-base"
+          onClick={() => suggestionsmodel(item)}
+        >
+          {item.name}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
               {/* Buttons */}
-              <div className="flex items-center lg:space-x-4">
+              <div className="flex items-center lg:space-x-4 lg:mr-15">
                 {token ? (<>
                   <button
                     className=" hidden ml-5 lg:flex items-center px-4 py-2 text-gray-600 hover:text-indigo-600 transition-colors"
