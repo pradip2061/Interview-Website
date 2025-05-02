@@ -33,7 +33,12 @@ const Python = () => {
        setPages(response.data.totalpages)
       }
     } catch (error) {
-      console.log(error)
+      if (error.response && error.response.status === 404) {
+        setQuestions([]);
+        setPages(0);
+      } else {
+        console.error(error);
+      }
     }finally{
     setLoading(false)
     }}
@@ -41,10 +46,13 @@ const Python = () => {
 question()
     },[subtopic,page])
 
-    useEffect(()=>{
-      setSubTopic("pythonvariables")
-      setCloseSideBar(true)
-    },[])
+    useEffect(() => {
+      if (!subtopic) {
+        setSubTopic('pythonvariables');
+      }
+      setCloseSideBar(true);
+    }, []);
+    
 
     const sidebarRef = useRef(null);
     const handleClickOutside = (event) => {

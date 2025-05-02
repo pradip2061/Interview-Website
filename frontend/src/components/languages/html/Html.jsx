@@ -44,16 +44,24 @@ const Html = () => {
         setPages(response.data.totalpages);
       }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 404) {
+        setQuestions([]);
+        setPages(0);
+      } else {
+        console.error(error);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    setSubTopic('htmlstructure');
+    if (!subtopic) {
+      setSubTopic('htmlstructure');
+    }
     setCloseSideBar(true);
   }, []);
+  
 
   useEffect(() => {
     question();

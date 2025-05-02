@@ -23,7 +23,12 @@ const Java = () => {
        setPages(response.data.totalpages)
       }
     } catch (error) {
-      console.log(error)
+      if (error.response && error.response.status === 404) {
+        setQuestions([]);
+        setPages(0);
+      } else {
+        console.error(error);
+      }
     }finally{
     setLoading(false)
     }}
@@ -31,10 +36,13 @@ const Java = () => {
     useEffect(() => {
  question()
     }, [subtopic, page]);
-  useEffect(() => {
-    setSubTopic("javainheritance");
-    setCloseSideBar(true);
-  }, []);
+    useEffect(() => {
+      if (!subtopic) {
+        setSubTopic('javainheritance');
+      }
+      setCloseSideBar(true);
+    }, []);
+    
 
   const sidebarRef = useRef(null);
 

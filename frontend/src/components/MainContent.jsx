@@ -54,9 +54,11 @@ const MainContent = () => {
         }
       }
 
+      let matches=false
       for (const topic of topics) {
         if (lowerSearch.includes(topic.key)) {
           setPageName(topic.label)
+          matches=true
           const slideTopic = slideElem.find((elem) => elem.name === topic.label);
           if (slideTopic && slideTopic.subItems.length > 0) {
             const matched = slideTopic.subItems.find((subItem) => {
@@ -81,18 +83,34 @@ const MainContent = () => {
           return;
         }
       }
-
-      const matchedSubItems = [];
-      for (const topic of slideElem) {
-        for (const subItem of topic.subItems) {
-          const formattedSubItem = subItem.replace(/\s+/g, '').toLowerCase();
-          if (formattedSubItem.includes(lowerSearch)) {
-            matchedSubItems.push({ item: subItem });
+      if (!matches) {
+        const allResults = [];
+          // Iterate over each topic in slideElem
+        for (const topic of slideElem) {
+          // For each topic, iterate over its sub-items
+          for (const subItem of topic.subItems) {
+            // Use Fuse.js for fuzzy search on each sub-item
+            const fuse = new Fuse([subItem], {
+              includeScore: true,
+              threshold: 0.6,
+            });
+            // Search for the lowercased search term
+            const results = fuse.search(lowerSearch);
+            // If results are found, add them to the allResults array
+            if (results.length > 0) {
+              allResults.push(...results); // Add all matching results
+            }
           }
         }
+        // Slice the results to limit to 10 suggestions and set them
+        if (allResults.length > 0) {
+          setSuggestions(allResults.slice(0, 10)); // Only take the top 10 results
+        } else {
+          // If no results were found, you could show a "no results found" message
+          setSuggestions([{ item: 'No result found' }]);
+        }
       }
-
-      setSuggestions(matchedSubItems);
+      
     };
 
     showQuestions();
