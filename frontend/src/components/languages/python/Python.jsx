@@ -94,7 +94,7 @@ question()
           { 
   subtopic === 'pythonvariables' ?
   <Variables {...(questions ? { questions } : {})}/>:subtopic === 'pythondatatypes' ?<DataTypes/>:subtopic === 'pythontypecasting' ?<Typecasting {...(questions ? { questions } : {})}/>:subtopic === 'pythonstringandstringmethods' ?
-<Stringandstringmethods/>:subtopic === 'pythonoperators' ?<Operators/>:subtopic === 'pythoninputuser' ?<InputUser/>:subtopic === 'pythonoperatorprecedence' ?
+<Stringandstringmethods {...(questions ? { questions } : {})}/>:subtopic === 'pythonoperators' ?<Operators/>:subtopic === 'pythoninputuser' ?<InputUser/>:subtopic === 'pythonoperatorprecedence' ?
 <OperatorPrecedence/>:subtopic === 'pythonifandelse' ?
 <IfandElse  {...(questions ? { questions } : {})}/>:subtopic === 'pythonmatchcase' ? <MatchCase/>: subtopic === 'pythonfstrings' ?  <Fstrings/>:subtopic === 'pythonloops'?<Loops/>:<img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>}
 
