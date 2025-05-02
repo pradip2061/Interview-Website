@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { X, UserCircle } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
-import { useMemo } from "react";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,8 +17,17 @@ const AuthForm = () => {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  // ✅ Clean up trailing '?' from URL
+  useEffect(() => {
+    if (window.location.search === "?") {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
+
   const toggleForm = () => {
     if (loading) return;
     setIsLogin(!isLogin);
@@ -42,19 +50,16 @@ const AuthForm = () => {
     try {
       let response;
       if (isLogin) {
-        response = await axios.post(`${BASE_URL}/login`,{
+        response = await axios.post(`${BASE_URL}/login`, {
           email: formData.email,
           password: formData.password,
         });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.data);
-
-          // ✅ Use toastId to prevent duplicates
           if (!toastShown.current) {
             toast.success(response.data.message, { toastId: "login-success" });
             toastShown.current = true;
           }
-
           navigate("/", { state: { loginSuccess: true } });
         }
       } else {
@@ -62,7 +67,7 @@ const AuthForm = () => {
         if (response.status === 200) {
           setOtpModel(true);
           setError("");
-          toast.success(response.data.message, { toastId: "otp-sent" }); // ✅
+          toast.success(response.data.message, { toastId: "otp-sent" });
         }
       }
     } catch (error) {
@@ -73,7 +78,7 @@ const AuthForm = () => {
     }
   };
 
-  const verifyOtp = useMemo(async(e) => {
+  const verifyOtp = useMemo(() => async (e) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
@@ -98,7 +103,7 @@ const AuthForm = () => {
       setOtp("");
       setLoading(false);
     }
-  })
+  }, [otp, formData, loading]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-100 to-blue-200 p-4">
