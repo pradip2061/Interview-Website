@@ -94,7 +94,7 @@ const AuthForm = () => {
         setIsLogin(true);
         setOtpModel(false);
         setError("");
-        setFormData({ password: "" });
+        setFormData({ password: "",email:""});
       }
     } catch (error) {
       console.error("OTP Verify Error:", error);
