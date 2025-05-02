@@ -8,7 +8,6 @@ const PythonEditor = () => {
   const [output, setOutput] = useState('');
   const { questions } = useParams();
 
-  // Decode question param to prefill editor
   useEffect(() => {
     if (questions) {
       try {
@@ -21,25 +20,36 @@ const PythonEditor = () => {
     }
   }, [questions]);
 
-  // Load Pyodide once
   useEffect(() => {
     const loadPyodide = async () => {
       const pyodideInstance = await window.loadPyodide({
         indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
       });
+      await pyodideInstance.loadPackagesFromImports();
       setPyodide(pyodideInstance);
     };
     loadPyodide();
   }, []);
 
-  // Run Python code when button is clicked
   const runPythonCode = async () => {
     if (pyodide) {
       try {
-        const result = await pyodide.runPythonAsync(pythonCode);
-        setOutput(result?.toString() || ''); // Show output
+        // Redirect stdout and stderr
+        pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = sys.__stdout__ = StringIO()
+sys.stderr = sys.__stderr__ = StringIO()
+        `);
+
+        await pyodide.runPythonAsync(pythonCode);
+
+        const stdout = pyodide.runPython("sys.stdout.getvalue()");
+        const stderr = pyodide.runPython("sys.stderr.getvalue()");
+
+        setOutput(stdout + (stderr ? `\n❌ ${stderr}` : ''));
       } catch (err) {
-        setOutput(`❌ Error: ${err.message}`);
+        setOutput(`❌ JS Error: ${err.message}`);
       }
     }
   };
@@ -75,11 +85,11 @@ const PythonEditor = () => {
         </button>
       </div>
 
-      {/* Output */}
+      {/* Output Console */}
       <div className="w-full lg:w-1/2 bg-gray-100 rounded-md shadow-md p-4">
-        <h3 className="text-xl font-semibold text-blue-500">Output</h3>
-        <div className="mt-4 h-[400px] sm:h-[500px] lg:h-[640px] overflow-auto border border-gray-300 p-2 bg-white rounded whitespace-pre-wrap">
-          {output}
+        <h3 className="text-xl font-semibold text-blue-500">Console Output</h3>
+        <div className="mt-4 h-[400px] sm:h-[500px] lg:h-[640px] overflow-auto border border-gray-300 p-2 bg-white rounded whitespace-pre-wrap font-mono text-sm">
+          {output || "▶️ Output will appear here..."}
         </div>
       </div>
     </div>
