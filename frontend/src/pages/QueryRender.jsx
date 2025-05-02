@@ -12,7 +12,7 @@ const QueryRender = () => {
            const response = await axios.post(`${BASE_URL}/verify`, {},{
                 headers:{
                     Authorization:`${token}`
-                }
+                },
             });
             if(response.data.message === "admin"){
                 setSelect("admin")

@@ -34,7 +34,8 @@ const SentQuery = () => {
        const response = await axios.post(`${BASE_URL}/userquery`, {formData},{
             headers:{
                 Authorization:`${token}`
-            }
+            },
+            withCredentials: true
         });
         if (response.status === 200) {
           setError("")

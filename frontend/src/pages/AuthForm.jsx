@@ -19,7 +19,7 @@ const AuthForm = () => {
     password: "",
   });
   const navigate = useNavigate();
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const toggleForm = () => {
     if (loading) return;
     setIsLogin(!isLogin);
@@ -42,7 +42,7 @@ const AuthForm = () => {
     try {
       let response;
       if (isLogin) {
-        response = await axios.post("http://localhost:3000/interview/login", {
+        response = await axios.post(`${BASE_URL}/login`,{
           email: formData.email,
           password: formData.password,
         });
@@ -58,7 +58,7 @@ const AuthForm = () => {
           navigate("/", { state: { loginSuccess: true } });
         }
       } else {
-        response = await axios.post("http://localhost:3000/interview/otpsent", { formData });
+        response = await axios.post(`${BASE_URL}/otpsent`, { formData });
         if (response.status === 200) {
           setOtpModel(true);
           setError("");
@@ -78,7 +78,7 @@ const AuthForm = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/interview/verifyotp", {
+      const response = await axios.post(`${BASE_URL}/verifyotp`, {
         otp,
         email: formData.email,
         username: formData.username,
