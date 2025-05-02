@@ -9,6 +9,7 @@ import MonacoEditorComponent from './MonacoEditorComponent'; // (if you use it s
 import { SearchProvider } from './ContextApi';
 import SentQuery from './pages/SentQuery';
 import QueryRender from './pages/QueryRender';
+import PythonEditor from './PythonEditor';
 function App() {
   return (
     <SearchProvider>
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/htmleditor/:questions' element={<HtmlEditor />} />
+          <Route path='/pythoneditor/:questions' element={<PythonEditor/>} />
           <Route path='/authenticate' element={<AuthForm />} />
           <Route path='/sentQuery' element={<SentQuery />} />
           <Route path='/queryrender' element={<QueryRender />} />
