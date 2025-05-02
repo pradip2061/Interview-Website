@@ -22,7 +22,7 @@ const Variables = ({questions}) => {
     </h1>
 { items.category === 'output'?
   <div className=' bg-gray-20  p-5 mt-3 mr-5'>
-        <div className='border-l-5 border-indigo-500 whitespace-pre-wrap bg-white overflow-x-auto flex pl-5 w-[100%] py-5 mt-3'>
+        <div className='border-l-5 border-indigo-500 whitespace-pre-wrap bg-white overflow-x-auto flex pl-5 w-[100%] py-5 mt-3 '>
         {
             items.outputQuestion|| "no data found!"
         }

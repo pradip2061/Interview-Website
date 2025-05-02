@@ -92,9 +92,20 @@ const AdminQuery = () => {
   return (
     <div className="min-h-screen flex  flex-col items-center justify-center bg-gradient-to-r from-sky-100 to-blue-200 p-4">
     <div className="flex space-x-10 mb-10">
-    <button className="w-full px-2 bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 disabled:opacity-60" onClick={()=>setToggle("theory")}>theory</button>
-    <button className="w-full px-2 bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 disabled:opacity-60" onClick={()=>setToggle("output")}>output</button>
-    </div>
+    <button
+  className={`${toggle === "theory" ? "bg-sky-600" : "bg-sky-300"} w-full px-2 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300`}
+  onClick={() => setToggle("theory")}
+>
+  theory
+</button>
+
+<button
+  className={`${toggle === "output" ? "bg-sky-600" : "bg-sky-300"} w-full px-2 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold text-lg transition duration-300`}
+  onClick={() => setToggle("output")}
+>
+  output
+</button>
+</div>
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 relative">
         <div className="flex flex-col items-center mb-6">
           <UserCircle className="text-sky-500" size={64} />

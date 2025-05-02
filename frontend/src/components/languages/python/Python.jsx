@@ -15,6 +15,7 @@ import IfandElse from './IfandElse';
 import MatchCase from './MatchCase';
 import Fstrings from './Fstrings ';
 import Loops from './Loops';
+import TuplesandTupleMethods from './TuplesandTupleMethods';
 const Python = () => {
   const{slideElem,subtopic,closeSideBar,setCloseSideBar,setSubTopic}=useContext(SearchContext)
   const[loading,setLoading]=useState(false)
@@ -96,7 +97,7 @@ question()
   <Variables {...(questions ? { questions } : {})}/>:subtopic === 'pythondatatypes' ?<DataTypes/>:subtopic === 'pythontypecasting' ?<Typecasting {...(questions ? { questions } : {})}/>:subtopic === 'pythonstringandstringmethods' ?
 <Stringandstringmethods {...(questions ? { questions } : {})}/>:subtopic === 'pythonoperators' ?<Operators/>:subtopic === 'pythoninputuser' ?<InputUser/>:subtopic === 'pythonoperatorprecedence' ?
 <OperatorPrecedence/>:subtopic === 'pythonifandelse' ?
-<IfandElse  {...(questions ? { questions } : {})}/>:subtopic === 'pythonmatchcase' ? <MatchCase/>: subtopic === 'pythonfstrings' ?  <Fstrings/>:subtopic === 'pythonloops'?<Loops/>:<img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>}
+<IfandElse  {...(questions ? { questions } : {})}/>:subtopic === 'pythonmatchcase' ? <MatchCase/>: subtopic === 'pythonfstrings' ?  <Fstrings/>:subtopic === 'pythonloops'?<Loops/>:subtopic === 'pythontuplesandtuplemethods' ? <TuplesandTupleMethods {...(questions ? { questions } : {})}/>:<img src={img}  alt="no image found" className=' w-70 h-70 ml-10 lg:w-100 lg:h-130 lg:ml-80 '/>}
 
 <div className=' gap-x-1  flex justify-center mt-10 '>
         <button className={`${page == 1?' text-white bg-gray-400' : 'text-white bg-blue-500'} w-10 h-10`} onClick={handlePrev} disabled={page === 1}>prev</button>

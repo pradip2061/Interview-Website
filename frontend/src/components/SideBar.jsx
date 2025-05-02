@@ -31,7 +31,7 @@ const SideBar=({subitem}) => {
           {subitem?.map((topic) => (
             <li
               key={topic}
-              className={`p-2 ${subtopic === topic.toLowerCase().replace(/\s+/g,"")?'bg-indigo-500':'bg-white'} hover:bg-gray-100 rounded cursor-pointer transition-colors`}
+              className={`p-2 ${subtopic === topic.toLowerCase().replace(/\s+/g,"")?'bg-indigo-500':'bg-white'} hover:bg-blue-300 rounded cursor-pointer transition-colors`}
               onClick={()=>sendTopic(topic)}
             >
               {topic}

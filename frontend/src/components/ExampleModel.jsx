@@ -21,10 +21,10 @@ const ExampleModel = ({example}) => {
         className=' ml-70 lg:ml-220 pb-3 text-black'
       />
        {
-        example.theory &&  <h1>{example.theory || "no data found!"}</h1>
+        example.theory &&  <h1 className='whitespace-pre-line'>{example.theory || "no data found!"}</h1>
        }
         {
-            example.code && <div className='border-l-5 border-indigo-500 whitespace-pre-wrap bg-white overflow-x-auto flex pl-5 w-[100%] py-5 mt-3'>
+            example.code && <div className='border-l-5 border-indigo-500 whitespace-pre-line  bg-white overflow-x-auto flex pl-5 w-[100%] py-5 mt-3'>
         {
          example.code || "no data found!"
         }
