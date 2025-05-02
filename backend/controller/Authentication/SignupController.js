@@ -78,12 +78,12 @@ const requestOtp = async (req, res) => {
         return res.status(400).json({ message: "All credentials are require!!" });
   
       const otpRecord = await Otp.findOne({ otp });
-  
       if (!otpRecord) return res.status(400).json({ message: "Invalid OTP" });
   
       if (otpRecord.expiresAt < new Date()) {
         return res.status(400).json({ message: "OTP has expired" });
       }
+      console.log("hello otp")
       await Otp.deleteOne({ _id: otpRecord._id }); // Remove OTP after verification
       const userinfo= new User({
         username,
